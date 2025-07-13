@@ -1,0 +1,1 @@
+# bupverse-campus-connect-manager
