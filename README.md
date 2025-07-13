@@ -14,7 +14,7 @@ These modules are implemented using Dijkstra’s Algorithm, Segment Tree, Interv
 
 ## Features: 
 
-### Homepage:
+### Main Homepage:
    
 ![homepage](https://github.com/user-attachments/assets/267495db-0fd4-4b90-b5c7-796f889adf8c)
 
@@ -36,7 +36,7 @@ The homepage of BUPVerse provides a clean and intuitive user interface. It acts 
 The NextDoor Tutor module connects students and tutors using a graph-based system where each post is a node. A customized Dijkstra’s Algorithm calculates compatibility scores based on subject match, budget, gender preference, and location (via OpenRouteService and Nominatim). A max-heap retrieves the top-K best matches efficiently, with real-time updates as users post or edit, enabling dynamic, personalized recommendations.
 
 
-- Homepage
+- NextDoor Homepage
 
 ![thome](https://github.com/user-attachments/assets/529e8ba7-b378-4f26-8492-6c8b593e324e)
 
@@ -54,7 +54,7 @@ The NextDoor Tutor module connects students and tutors using a graph-based syste
 
 The Roommate Finder module helps students find compatible roommates using a graph-based model. Each user is a node, and matches are scored with a customized Dijkstra’s Algorithm. Key factors include location (high weight), rent and gender (medium), and food preferences (low). A max-heap retrieves the top-K matches, delivering personalized, real-time roommate suggestions.
 
-- Homepage:
+- Roommate FinderHomepage:
 
 ![roomH](https://github.com/user-attachments/assets/481e1683-2535-4d7b-9013-5d0ffe497a72)
 
@@ -72,8 +72,8 @@ The Roommate Finder module helps students find compatible roommates using a grap
 
 The Event Hub centralizes event info across BUP clubs and departments, helping students discover and manage events efficiently. It uses a segment tree to quickly detect schedule conflicts and a greedy interval scheduling algorithm to suggest non-overlapping events. For personalized planning, a 0/1 Knapsack algorithm recommends the most valuable set of events based on user availability and event priority, maximizing utility while avoiding clashes.
 
-- Homepage
-- 
+- Campus Events Homepage
+  
 ![eventshome](https://github.com/user-attachments/assets/f0001f8f-4b4c-44a4-ac05-65f0e6fd63bd)
 
 
