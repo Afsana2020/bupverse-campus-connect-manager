@@ -1,0 +1,124 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Your Profile | BUPverse{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold text-gradient-primary">
+      Your <span class="text-gradient-success">Profile</span>
+    </h1>
+  </div>
+
+  <div class="card border-0 shadow-lg mx-auto" style="border-radius: 15px; max-width: 800px;">
+    <div class="card-body p-5">
+
+      <div class="text-center mb-4">
+        {% if profile.pic %}
+          <img src="{{ profile.pic.url }}" class="rounded-circle mb-3" width="150" height="150">
+        {% else %}
+          <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center mb-3 text-muted" 
+               style="width: 150px; height: 150px;">
+            Not provided
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="row g-4">
+      
+        <div class="col-md-6">
+          <div class="profile-info-card p-4" style="border-radius: 10px; background-color: #f8f9fa;">
+            <h5 class="mb-4 text-primary"><i class="fas fa-user-circle me-2"></i>Personal Information</h5>
+            <p><strong>Full Name:</strong> {{ profile.full_name }}</p>
+            <p><strong>Phone:</strong> {{ profile.phone_number }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+          </div>
+        </div>
+
+    
+        <div class="col-md-6">
+          <div class="profile-info-card p-4" style="border-radius: 10px; background-color: #f8f9fa;">
+            <h5 class="mb-4 text-primary"><i class="fas fa-graduation-cap me-2"></i>Academic Information</h5>
+            <p><strong>Department:</strong> {{ profile.get_department_display }}</p>
+            <p><strong>Semester:</strong> {{ profile.semester }}</p>
+            <p><strong>Degree:</strong> {{ profile.get_degree_display }}</p>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="profile-info-card p-4" style="border-radius: 10px; background-color: #f8f9fa;">
+            <h5 class="mb-4 text-primary"><i class="fas fa-share-alt me-2"></i>Social Media</h5>
+            <div class="row">
+              <div class="col-md-6">
+                {% if profile.linkedin %}
+                  <p><strong>LinkedIn:</strong> <a href="{{ profile.linkedin }}" target="_blank" class="text-decoration-none">
+                    <i class="fab fa-linkedin text-primary me-2"></i>{{ profile.linkedin|truncatechars:30 }}
+                  </a></p>
+                {% else %}
+                  <p class="text-muted"><i class="fab fa-linkedin me-2"></i>Not provided</p>
+                {% endif %}
+              </div>
+              <div class="col-md-6">
+                {% if profile.facebook %}
+                  <p><strong>Facebook:</strong> <a href="{{ profile.facebook }}" target="_blank" class="text-decoration-none">
+                    <i class="fab fa-facebook text-primary me-2"></i>{{ profile.facebook|truncatechars:30 }}
+                  </a></p>
+                {% else %}
+                  <p class="text-muted"><i class="fab fa-facebook me-2"></i>Not provided</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        {% if profile.additional_info %}
+        <div class="col-12">
+          <div class="profile-info-card p-4" style="border-radius: 10px; background-color: #f8f9fa;">
+            <h5 class="mb-4 text-primary"><i class="fas fa-info-circle me-2"></i>Additional Information</h5>
+            <p>{{ profile.additional_info }}</p>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+     
+      <div class="d-flex justify-content-between mt-5">
+        <a href="{% url 'profile_edit' %}" class="btn btn-primary rounded-pill px-4">
+          <i class="fas fa-edit me-1"></i> Edit Profile
+        </a>
+        <a href="{% url 'general_profile' %}" class="btn btn-success rounded-pill px-4">
+          <i class="fas fa-star me-1"></i> Feature Profile
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .text-gradient-primary {
+    background: linear-gradient(45deg, #28a745, #17a2b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .text-gradient-success {
+    background: linear-gradient(45deg, #20c997, #28a745);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .profile-info-card {
+    height: 100%;
+    transition: transform 0.3s ease;
+  }
+
+  .profile-info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+</style>
+{% endblock %}

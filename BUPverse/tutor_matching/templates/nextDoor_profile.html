@@ -1,0 +1,149 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}My Tutor Profile | BUPverse{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-3 text-gradient-primary">My <span class="text-gradient-success">NextDoor-Tutor Profile</span></h1>
+        <p class="lead text-muted">Manage your tutoring preferences and matches</p>
+    </div>
+
+    {% if post %}
+    <div class="card border-0 shadow-lg overflow-hidden mb-5 style="border-radius: 20px;">
+        <div class="card-header bg-success bg-opacity-10 py-3">
+            <h4 class="text-center mb-0 text-success">
+                My Tutoring Post
+            </h4>
+        </div>
+        
+        <div class="card-body p-4">
+            {% if post.photo %}
+            <div class="text-center mb-4">
+                <img src="{{ post.photo.url }}" class="img-fluid rounded-circle border border-4 border-success" 
+                     style="width: 180px; height: 180px; object-fit: cover;" alt="Profile Photo">
+            </div>
+            {% endif %}
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="p-4 bg-light rounded-3 h-100">
+                        <h5 class="fw-bold text-success mb-4">
+                            My Info
+                        </h5>
+                        <div class="d-flex align-items-center mb-3">
+                            
+                            <p class="mb-0">{{ post.user.username }}</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            
+                            <p class="mb-0">{{ post.user_type }}</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            
+                            <p class="mb-0">{{ post.phone_number }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 ">
+                    <div class="p-4 bg-light rounded-3 h-100 ">
+                        <h5 class="fw-bold text-success mb-4">
+                            Post Details
+                        </h5>
+                        <div class="row g-2">
+                            <div class="col-6 mb-3">
+                                <p class="fw-bold text-muted mb-1">Subject</p>
+                                <p>{{ post.subjects }}</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <p class="fw-bold text-muted mb-1">Medium</p>
+                                <p>{{ post.medium }}</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <p class="fw-bold text-muted mb-1">Class</p>
+                                <p>{{ post.student_class }}</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <p class="fw-bold text-muted mb-1">Gender</p>
+                                <p>{{ post.gender }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="fw-bold text-muted mb-1">Location</p>
+                                <p>{{ post.location }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="fw-bold text-muted mb-1">Budget</p>
+                                <p>{{ post.budget }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="{% url 'nextDoor_post_edit' post.id %}" class="btn btn-success rounded-pill px-4">
+                    <i class="fas fa-edit me-2"></i>Edit Post
+                </a>
+                <a href="{% url 'nextDoor_delete' post.id %}" class="btn btn-danger rounded-pill px-4">
+                    Delete
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="{% url 'nextDoor_matched_posts' post.id %}" class="btn btn-primary btn-lg rounded-pill px-5 animate__animated animate__pulse animate__infinite" 
+           style="animation-duration: 2s; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);">
+            <i class="fas fa-heart me-2"></i>View Your Top Matches
+        </a>
+    </div>
+
+    {% else %}
+    <div class="card border-0 shadow-sm rounded-3 overflow-hidden mx-auto" style="max-width: 500px; border-radius: 20px !important;">
+        <div class="card-body p-5 text-center">
+            <div class="mb-4">
+                <i class="fas fa-book fa-4x text-muted opacity-25"></i>
+            </div>
+            <h4 class="fw-bold text-muted mb-3">No Post Yet</h4>
+            <p class="text-muted mb-4">Create your first tutoring post to start connecting with students!</p>
+            <a href="{% url 'nextDoor_post_create' %}" class="btn btn-success rounded-pill px-4 py-2">
+                <i class="fas fa-plus-circle me-2"></i>Create Post
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .text-gradient-primary {
+        background: linear-gradient(45deg, #28a745, #17a2b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .text-gradient-success {
+        background: linear-gradient(45deg, #20c997, #28a745);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .icon-circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+    
+    .card {
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Post Details | BUPverse{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold mb-3 text-gradient-primary">Room <span class="text-gradient-success">Post Details</span></h1>
+    </div>
+
+    {% if post %}
+    <div class="card border-0 shadow-lg mb-5" style="border-radius: 15px;">
+        <div class="card-body p-4">
+            <h4 class="text-center mb-4 text-success fw-bold">Post by {{ post.user.username }}</h4>
+
+            <div class="row g-4">
+      
+                <div class="col-md-6">
+                    <div class="info-section bg-light p-4 rounded">
+                        <h5 class="text-primary fw-bold mb-3">User Info</h5>
+                        <div class="info-item mb-2">
+                            <span class="fw-bold text-dark">User Type:</span> {{ post.user_type }}
+                        </div>
+                        <div class="info-item mb-2">
+                            <span class="fw-bold text-dark">Department:</span> {{ post.department }}
+                        </div>
+                        <div class="info-item mb-2">
+                            <span class="fw-bold text-dark">Preferred Gender:</span> {{ post.gender }}
+                        </div>
+                        <div class="info-item">
+                            <span class="fw-bold text-dark">Phone Number:</span> {{ post.phone_number }}
+                        </div>
+                    </div>
+                </div>
+
+    
+                <div class="col-md-6">
+                    <div class="info-section bg-light p-4 rounded">
+                        <h5 class="text-primary fw-bold mb-3">Room Info</h5>
+                        <div class="info-item mb-2">
+                            <span class="fw-bold text-dark">Area:</span> {{ post.area }}
+                        </div>
+                        <div class="info-item mb-2">
+                            <span class="fw-bold text-dark">Full Address:</span> {{ post.full_address }}
+                        </div>
+                        <div class="info-item mb-2">
+                            <span class="fw-bold text-dark">Room Type:</span> {{ post.room_type }}
+                        </div>
+                        <div class="info-item mb-2">
+                            <span class="fw-bold text-dark">Monthly Rent:</span> {{ post.rent }}
+                        </div>
+                        <div class="info-item mb-2">
+                            <span class="fw-bold text-dark">Food Arrangement:</span> {{ post.food }}
+                        </div>
+                        <div class="info-item mb-2">
+                            <span class="fw-bold text-dark">Move-in Date:</span> {{ post.move_in_date }}
+                        </div>
+                        <div class="info-item">
+                            <span class="fw-bold text-dark">Distance from BUP:</span> {{ post.dist_from_bup }} km
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    
+            <div class="mt-4">
+                <div class="info-section bg-light p-4 rounded">
+                    <h5 class="text-primary fw-bold mb-3">Additional Details</h5>
+                    <div class="border p-3 rounded bg-white">
+                        {{ post.description|default:"No additional details provided." }}
+                    </div>
+                </div>
+            </div>
+
+  
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'room_homepage' %}" class="btn btn-success rounded-pill px-4">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Home
+                </a>
+                
+                {% if post.user == request.user %}
+                <div>
+                    <a href="{% url 'room_post_edit' post.id %}" class="btn btn-warning rounded-pill px-4 me-2">
+                        <i class="fas fa-edit me-1"></i> Edit
+                    </a>
+                    <a href="{% url 'room_delete' post.id %}" class="btn btn-danger rounded-pill px-4">
+                        <i class="fas fa-trash-alt me-1"></i> Delete
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    
+    <div class="card border-0 shadow-lg mx-auto" style="max-width: 500px; border-radius: 15px;">
+        <div class="card-body text-center p-5">
+            <h4 class="text-muted mb-4">No Post Found</h4>
+            <p class="lead mb-4">You haven't created a post yet. Start now to find potential matches!</p>
+            <a href="{% url 'room_post_create' %}" class="btn btn-success rounded-pill px-5">
+                <i class="fas fa-plus-circle me-2"></i> Create a Post
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+
+<div class="position-fixed top-0 start-0 w-100 h-100" style="pointer-events: none; z-index: -1;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-5"></div>
+</div>
+
+<style>
+    .text-gradient-primary {
+        background: linear-gradient(45deg, #28a745, #17a2b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .text-gradient-success {
+        background: linear-gradient(45deg, #20c997, #28a745);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .info-section {
+        transition: transform 0.3s ease;
+    }
+    
+    .info-section:hover {
+        transform: translateY(-3px);
+    }
+    
+    .info-item {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+    }
+</style>
+{% endblock %}

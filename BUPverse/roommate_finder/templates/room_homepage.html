@@ -1,0 +1,149 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+Roommate Finder | BUPverse
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold mb-3 text-gradient-primary"><span class="text-gradient-success">Roommate Finder</span> </h1>
+        <p class="lead text-dark">Connect with potential roommates and housing opportunities in your campus community</p>
+    </div>
+
+    <!-- Cards Section -->
+    <div class="row justify-content-center g-4">
+        <!-- Roommates Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-hover border-0 shadow-lg overflow-hidden" style="border-radius: 20px; transition: all 0.3s ease;">
+                <div class="card-img-top position-relative overflow-hidden">
+                    <img src="{% static 'images/roomIMG2.jpg' %}" alt="Roommates" class="img-fluid w-100" style="height: 200px; object-fit: cover;">
+                    <div class="img-overlay bg-dark bg-opacity-30 d-flex align-items-center justify-content-center">
+                        <h3 class="text-white text-shadow">Find Roommates</h3>
+                    </div>
+                </div>
+                <div class="card-body text-center py-4 bg-dark text-light">
+                    <h4 class="card-title fw-bold mb-3">Looking for Roommates?</h4>
+                    <p class="card-text mb-4">Browse available roommate opportunities</p>
+                    <a href="{% url 'house_post_list' %}" class="btn btn-success btn-lg px-4 rounded-pill shadow-sm">
+                        Explore Roommates
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Houses Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-hover border-0 shadow-lg overflow-hidden" style="border-radius: 20px; transition: all 0.3s ease;">
+                <div class="card-img-top position-relative overflow-hidden">
+                    <img src="{% static 'images/roomIMG3.jpg' %}" alt="Houses" class="img-fluid w-100" style="height: 200px; object-fit: cover;">
+                    <div class="img-overlay bg-dark bg-opacity-30 d-flex align-items-center justify-content-center">
+                        <h3 class="text-white text-shadow">Find Houses</h3>
+                    </div>
+                </div>
+                <div class="card-body text-center py-4 bg-dark text-light">
+                    <h4 class="card-title fw-bold mb-3">Looking for Housing?</h4>
+                    <p class="card-text mb-4">Discover available housing nearby</p>
+                    <a href="{% url 'roommate_post_list' %}" class="btn btn-success btn-lg px-4 rounded-pill shadow-sm">
+                        Explore Houses
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-hover border-0 shadow-lg overflow-hidden" style="border-radius: 20px; transition: all 0.3s ease;">
+                <div class="card-img-top position-relative overflow-hidden">
+                    <img src="{% static 'images/roomIMG4.jpg' %}" alt="Profile" class="img-fluid w-100" style="height: 200px; object-fit: cover;">
+                    <div class="img-overlay bg-dark bg-opacity-30 d-flex align-items-center justify-content-center">
+                        <h3 class="text-white text-shadow">Your Profile</h3>
+                    </div>
+                </div>
+                <div class="card-body text-center py-4 bg-dark text-light">
+                     <h4 class="card-title fw-bold mb-3">Your post and matches</h4>
+                    <p class="card-text mb-4">Set preferences and get best matches</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'room_profile' %}" class="btn btn-success btn-lg px-4 rounded-pill shadow-sm">
+                        Check
+                    </a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-success btn-lg px-4 rounded-pill shadow-sm">
+                        Login Required
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Background Elements -->
+<div class="position-fixed top-0 start-0 w-100 h-100" style="pointer-events: none; z-index: -1;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-10"></div>
+    <div class="position-absolute bottom-0 end-0">
+        <div class="blob blob-lg bg-success opacity-10 animate-float"></div>
+    </div>
+</div>
+
+<style>
+    .text-gradient-primary {
+        background: linear-gradient(45deg, #28a745, #17a2b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .text-gradient-success {
+        background: linear-gradient(45deg, #20c997, #28a745);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .card-hover:hover {
+        transform: translateY(-10px) !important;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    }
+    
+    .img-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .card-hover:hover .img-overlay {
+        opacity: 1;
+    }
+    
+    .text-shadow {
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+    
+    .blob {
+        border-radius: 50%;
+        filter: blur(40px);
+    }
+    
+    .blob-lg {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .animate-float {
+        animation: float 8s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-50px) rotate(5deg); }
+        100% { transform: translateY(0px) rotate(0deg); }
+    }
+</style>
+{% endblock %}

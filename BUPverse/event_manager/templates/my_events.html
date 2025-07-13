@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+Your Events | BUPverse
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="display-5 fw-bold text-gradient-primary mb-2">Your <span class="text-gradient-success">Events</span></h1>
+            <p class="text-muted">Events you've created for the community</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{% url 'create_event' %}" class="btn btn-success rounded-pill px-4">
+                <i class="fas fa-plus me-2"></i>Create Event
+            </a>
+        </div>
+    </div>
+
+    
+    {% if post %}
+    <div class="row g-4">
+        {% for event in post %}
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg h-100" style="border-radius: 15px;">
+                {% if event.poster %}
+                <img src="{{ event.poster.url }}" class="card-img-top" 
+                     style="border-top-left-radius: 15px; border-top-right-radius: 15px; height: 200px; object-fit: cover;" 
+                     alt="{{ event.event_title }} poster">
+                {% endif %}
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h3 class="card-title mb-0">{{ event.event_title }}</h3>
+                        <span class="badge bg-primary rounded-pill">#{{ forloop.counter }}</span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-calendar-day text-muted me-3"></i>
+                            <p class="mb-0">{{ event.date }} • {{ event.start_time|time:"H:i" }}-{{ event.end_time|time:"H:i" }}</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-history text-muted me-3"></i>
+                            <p class="text-muted small mb-0">Posted {{ event.created_at|timesince }} ago</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <a href="{% url 'event_details' event.id %}" class="btn btn-success rounded-pill px-4">
+                            <i class="fas fa-eye me-2"></i>View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5 my-5">
+        <div class="card border-0 shadow-lg py-5" style="border-radius: 15px;">
+            <div class="card-body">
+                <i class="fas fa-calendar-times fa-3x text-muted mb-4"></i>
+                <h4 class="text-muted">No events created yet</h4>
+                <p class="text-muted">Get started by creating your first event!</p>
+                <a href="{% url 'create_event' %}" class="btn btn-success rounded-pill px-4 mt-3">
+                    <i class="fas fa-plus me-2"></i>Create Event
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<div class="position-fixed top-0 start-0 w-100 h-100" style="pointer-events: none; z-index: -1;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-5"></div>
+</div>
+
+<style>
+    .text-gradient-primary {
+        background: linear-gradient(45deg, #28a745, #17a2b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .text-gradient-success {
+        background: linear-gradient(45deg, #20c997, #28a745);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .card {
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+</style>
+{% endblock %}

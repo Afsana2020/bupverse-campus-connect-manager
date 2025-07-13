@@ -1,0 +1,142 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-5">
+  
+    {% if has_conflicts %}
+    <div class="alert mb-4" style="background-color: #FFF3E0; border-left: 4px solid #FFA000; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #5D4037; font-weight: 500;">⚠️ Schedule conflicts detected</span>
+        <a href="{% url 'fix_conflict' %}" style="background-color: #FFFFFF; color: #5D4037; padding: 6px 12px; border-radius: 4px; border: 1px solid #E0E0E0; text-decoration: none; font-weight: 500;">
+            Resolve Now
+        </a>
+    </div>
+    {% endif %}
+
+    <div class="text-center mb-5">
+        <h1 class="fw-bold mb-2" style="color: #2e7d32;">My Weekly Routine</h1>
+        <p class="text-muted">{{ week_start_date|date:"F j" }} – {{ week_end_date|date:"F j, Y" }}</p>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mb-4">
+        <a href="{% url 'add_busy_slot' %}" class="btn" style="background-color: #2e7d32; color: white;">
+            Add tasks
+        </a>
+        <a href="{% url 'event_manage' %}" class="btn" style="background-color: #f5f5f5; color: #212121; border: 1px solid #e0e0e0;">
+            Back
+        </a>
+    </div>
+
+ 
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        {% for day in days %}
+        <button class="btn rounded-1" 
+                type="button" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#day-{{ day.value }}"
+                aria-expanded="{% if day.is_today %}true{% else %}false{% endif %}"
+                style="background-color: {% if day.is_today %}#2e7d32{% else %}#f5f5f5{% endif %}; 
+                       color: {% if day.is_today %}white{% else %}#212121{% endif %};
+                       border: 1px solid #e0e0e0;
+                       font-weight: 500;">
+            {{ day.name }}, {{ day.date_display }}
+        </button>
+        {% endfor %}
+    </div>
+
+    
+    <div class="accordion" id="dayAccordion">
+        {% for day in days %}
+        <div class="collapse {% if day.is_today %}show{% endif %}" id="day-{{ day.value }}" data-bs-parent="#dayAccordion">
+            <div class="card mb-3 border-0 shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <h5 style="color: #2e7d32; font-weight: 600;">{{ day.full_date_display }}</h5>
+                </div>
+                <div class="card-body bg-white">
+                    {% if day.slots or day.events %}
+               
+                        {% for slot in day.slots %}
+                        <div class="d-flex justify-content-between align-items-center mb-3 p-3 border rounded" style="border-left: 4px solid #2e7d32 !important; background-color: #F1F8E9;">
+                            <div>
+                                <strong style="color: #212121;">{{ slot.task_name }}</strong>
+                                <div class="text-muted small">
+                                    {{ slot.start_time|time:"H:i" }} - {{ slot.end_time|time:"H:i" }}
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'edit_busy_slot' slot.id %}" class="btn btn-sm" style="background-color: #E8F5E9; color: #1B5E20; border: 1px solid #C8E6C9;">
+                                    Edit
+                                </a>
+                                <a href="{% url 'delete_busy_slot' slot.id %}" class="btn btn-sm" style="background-color: #FFEBEE; color: #C62828; border: 1px solid #FFCDD2;">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                      
+                        {% for event in day.events %}
+                        <div class="d-flex justify-content-between align-items-center mb-3 p-3 border rounded" style="border-left: 4px solid #1976D2 !important; background-color: #E3F2FD;">
+                            <div>
+                                <strong style="color: #212121;">{{ event.event.event_title }}</strong>
+                                <div class="text-muted small">
+                                    {{ event.event.start_time|time:"H:i" }} - {{ event.event.end_time|time:"H:i" }}
+                                    <span class="badge rounded-pill ms-2" style="background-color: #BBDEFB; color: #0D47A1;">
+                                        Priority: {{ event.importance_score }}/10
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'event_details' event.event.id %}" class="btn btn-sm" style="background-color: #E1F5FE; color: #01579B; border: 1px solid #B3E5FC;">
+                                    View
+                                </a>
+                                <a href="{% url 'update_routine' %}?event_id={{ event.event.id }}&action=remove" class="btn btn-sm" style="background-color: #FFEBEE; color: #C62828; border: 1px solid #FFCDD2;">
+                                    Remove
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-4 text-muted">
+                            No scheduled items for {{ day.name }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #fafafa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .btn {
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-weight: 500;
+        text-transform: none;
+        transition: all 0.2s ease;
+    }
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .badge {
+        font-weight: 500;
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+    .card {
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    .card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    }
+</style>
+
+{% endblock %}

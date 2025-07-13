@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+  {% if form.instance.pk %}Edit Event | BUPverse{% else %}Create Event | BUPverse{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  
+  
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert" style="background-color: #dc3545; border-radius: 10px;">
+        <div class="d-flex align-items-center">
+          <i class="fas fa-exclamation-circle me-2 text-white"></i>
+          <p class="text-white mb-0">{{ message }}</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="filter: invert(1);"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="text-center mb-5 pb-3">
+    <h1 class="display-4 fw-bold mb-4 text-gradient-primary"> 
+      {% if form.instance.pk %}
+        Edit Your <span class="text-gradient-success">Event</span>
+      {% else %}
+        Create a <span class="text-gradient-success">New Event</span>
+      {% endif %}
+    </h1>
+    <p class="text-muted"><small>* indicates required field</small></p>
+  </div>
+
+  <div class="card border-0 shadow-lg mx-auto" style="border-radius: 15px; max-width: 800px;">
+    <div class="card-body p-5">
+      <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        
+       
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger mb-4 bg-danger text-light" style="border-radius: 10px;">
+            <strong>There were errors in your form:</strong>
+            <ul class="mb-0">
+              {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        <div class="row g-4">  
+          {% for field in form %}
+          <div class="col-md-{% if field.name == 'description' or field.name == 'location' %}12{% else %}6{% endif %}">
+            <div class="form-group mb-4"> 
+              <label for="{{ field.id_for_label }}" class="form-label fw-semibold mb-2">  
+                {{ field.label }}
+                {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+              </label>
+              {{ field }}
+              {% if field.help_text %}
+                <div class="form-text text-muted mt-2"><small>{{ field.help_text }}</small></div>
+              {% endif %}
+              {% if field.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in field.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+   
+        <div class="d-flex justify-content-between mt-5">  
+          <a href="{% url 'event_homepage' %}" class="btn btn-secondary rounded-pill px-4">
+            <i class="fas fa-arrow-left me-1"></i> Back to Events
+          </a>
+          <button class="btn btn-success rounded-pill px-4" type="submit">
+            <i class="fas fa-save me-1"></i>
+            {% if form.instance.pk %}Update Event{% else %}Create Event{% endif %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="position-fixed top-0 start-0 w-100 h-100" style="pointer-events: none; z-index: -1;">
+  <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-5"></div>
+</div>
+
+
+<style>
+  .text-gradient-primary {
+    background: linear-gradient(45deg, #28a745, #17a2b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .text-gradient-success {
+    background: linear-gradient(45deg, #20c997, #28a745);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .form-control, .form-select, .form-control-file {
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    margin-bottom: 0;
+  }
+
+  .form-control:focus, .form-select:focus, .form-control-file:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .invalid-feedback {
+    font-size: 0.875em;
+    color: #dc3545;
+    margin-top: 0.25rem;
+  }
+
+  .is-invalid {
+    border-color: #dc3545 !important;
+  }
+
+  textarea {
+    min-height: 120px;
+  }
+</style>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+ 
+    const inputs = document.querySelectorAll('input:not([type="checkbox"]), select, textarea');
+    inputs.forEach(input => {
+      if (input.type !== 'checkbox' && input.type !== 'file') {
+        input.classList.add('form-control');
+      }
+    });
+
+    document.querySelectorAll('select').forEach(select => {
+      select.classList.add('form-select');
+    });
+
+    
+    document.querySelectorAll('.invalid-feedback').forEach(error => {
+      const inputId = error.closest('.form-group').querySelector('input, select, textarea').id;
+      const input = document.getElementById(inputId);
+      if (input) input.classList.add('is-invalid');
+    });
+  });
+</script>
+{% endblock %}

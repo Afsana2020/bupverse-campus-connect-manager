@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Roommate Matches | BUPverse{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-3 text-gradient-primary">Your <span class="text-gradient-success">Roommate Matches</span></h1>
+        <p class="lead text-muted">Based on your housing preferences</p>
+    </div>
+
+    <!-- Matches List -->
+    {% if matches %}
+    <div class="row g-4">
+        {% for score, post in matches %}
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg h-100" style="border-radius: 15px;">
+                <div class="card-header bg-success bg-opacity-10 border-0 py-3">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <span class="badge bg-success rounded-pill px-3 py-2" style="font-size: 1rem;">
+                            Rank - {{ forloop.counter }}
+                        </span>
+                        
+                    </div>
+                </div>
+                
+                <div class="card-body p-4">
+                    <h4 class="card-title text-success">{{ post.user.username }}</h4>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                            <p class="mb-0"><strong>Area:</strong> {{ post.area }}</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-money-bill-wave text-muted me-2"></i>
+                            <p class="mb-0"><strong>Rent:</strong> {{ post.rent }}</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-road text-muted me-2"></i>
+                            <p class="mb-0"><strong>Distance from BUP:</strong> {{ post.dist_from_bup }} km</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        <a href="{% url 'room_post_details' post.id %}" 
+                           class="btn btn-success rounded-pill w-100">
+                            <i class="fas fa-info-circle me-2"></i>View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <div class="mb-4">
+            <i class="fas fa-search fa-3x text-muted"></i>
+        </div>
+        <h4 class="text-muted mb-3">No matches found</h4>
+        <p class="text-muted">Try adjusting your preferences for better results</p>
+    </div>
+    {% endif %}
+
+    <!-- Back Button -->
+    <div class="text-center mt-5">
+        <a href="{% url 'room_profile' %}" class="btn btn-outline-primary rounded-pill px-4 py-2">
+            <i class="fas fa-arrow-left me-2"></i>Back to Profile
+        </a>
+    </div>
+</div>
+
+<!-- Background Elements -->
+<div class="position-fixed top-0 start-0 w-100 h-100" style="pointer-events: none; z-index: -1;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-5"></div>
+</div>
+
+<style>
+    .text-gradient-primary {
+        background: linear-gradient(45deg, #28a745, #17a2b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .text-gradient-success {
+        background: linear-gradient(45deg, #20c997, #28a745);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .card {
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .card-header {
+        border-top-left-radius: 15px !important;
+        border-top-right-radius: 15px !important;
+    }
+</style>
+{% endblock %}

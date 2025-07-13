@@ -1,0 +1,157 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+About Us | BUPverse
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 animate__animated animate__fadeIn">
+
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold mb-3 text-gradient-primary">About <span class="text-gradient-success">BUPverse</span></h1>
+        <p class="lead text-dark">Connecting students through knowledge, living spaces, and campus life</p>
+    </div>
+
+    
+    <div class="card border-0 shadow-lg mb-5 overflow-hidden" style="border-radius: 20px;">
+        <div class="card-body p-5">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h3 class="card-title fw-bold mb-4 text-gradient-primary">Our <span class="text-gradient-success">Mission</span></h3>
+                    <p class="card-text text-dark mb-4">
+                        BUPverse is designed to enhance the university experience by connecting students through events, 
+                        tutoring, and roommate matching. Our platform helps you make the most of your academic journey.
+                    </p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <img src="{% static 'images/mission.png' %}" alt="Our Mission" class="img-fluid" style="max-height: 200px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <div class="card border-0 shadow-lg mb-5 overflow-hidden" style="border-radius: 20px;">
+        <div class="card-body p-5">
+            <h2 class="text-center mb-5 fw-bold text-gradient-primary">Meet Our <span class="text-gradient-success">Team</span></h2>
+            
+            <div class="row justify-content-center g-4">
+             
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-hover border-0 shadow-sm h-100" style="border-radius: 15px; transition: all 0.3s ease;">
+                        <div class="card-img-top bg-gradient-success bg-opacity-10 p-4 text-center">
+                            <img src="{% static 'images/team1.png' %}" alt="Afsana Hena" class="rounded-circle" width="120" height="120">
+                        </div>
+                        <div class="card-body text-center py-4">
+                            <h5 class="card-title fw-bold text-gradient-primary">Afsana <span class="text-gradient-success">Hena</span></h5>
+                            <p class="text-muted mb-2">Member-01</p>
+                            <p class="text-muted mb-2">CSE-02, FST, BUP</p>
+                            <p class="text-muted mb-3">afsanahena24@gmail.com</p>
+                            <a href="#" class="btn btn-success btn-sm rounded-pill px-3">
+                                <i class="fab fa-linkedin me-1"></i> LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+              
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-hover border-0 shadow-sm h-100" style="border-radius: 15px; transition: all 0.3s ease;">
+                        <div class="card-img-top bg-gradient-success bg-opacity-10 p-4 text-center">
+                            <img src="{% static 'images/team2.png' %}" alt="Marjia Khatun" class="rounded-circle" width="120" height="120">
+                        </div>
+                        <div class="card-body text-center py-4">
+                            <h5 class="card-title fw-bold text-gradient-primary">Marjia <span class="text-gradient-success">Khatun</span></h5>
+                            <p class="text-muted mb-2">Member-02</p>
+                            <p class="text-muted mb-2">CSE-02, FST, BUP</p>
+                            <p class="text-muted mb-3">marjia@gmail.com</p>
+                            <a href="#" class="btn btn-success btn-sm rounded-pill px-3">
+                                <i class="fab fa-linkedin me-1"></i> LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 20px;">
+        <div class="card-body p-5">
+            <h3 class="card-title fw-bold mb-4 text-gradient-primary">Our <span class="text-gradient-success">Features</span></h3>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card p-4 text-center border-0 shadow-sm h-100" style="border-radius: 15px;">
+                        <div class="icon-wrapper bg-danger rounded-circle mx-auto mb-3" style="width: 70px; height: 70px; line-height: 70px;">
+                            
+                        </div>
+                        <h5 class="fw-bold text-gradient-primary">Event <span class="text-gradient-success">Management</span></h5>
+                        <p class="text-muted">Never miss campus happenings</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card p-4 text-center border-0 shadow-sm h-100" style="border-radius: 15px;">
+                        <div class="icon-wrapper bg-info rounded-circle mx-auto mb-3" style="width: 70px; height: 70px; line-height: 70px;">
+                            
+                        </div>
+                        <h5 class="fw-bold text-gradient-primary">Tutor <span class="text-gradient-success">Matching</span></h5>
+                        <p class="text-muted">Find help or share knowledge</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card p-4 text-center border-0 shadow-sm h-100" style="border-radius: 15px;">
+                        <div class="icon-wrapper bg-success rounded-circle mx-auto mb-3" style="width: 70px; height: 70px; line-height: 70px;">
+                            
+                        </div>
+                        <h5 class="fw-bold text-gradient-primary">Roommate <span class="text-gradient-success">Finder</span></h5>
+                        <p class="text-muted">Turn your space into a home</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-gradient-primary {
+        background: linear-gradient(45deg, #28a745, #17a2b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .text-gradient-success {
+        background: linear-gradient(45deg, #20c997, #28a745);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .feature-card {
+        transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .card-hover:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    }
+    
+    .icon-wrapper {
+        transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover .icon-wrapper {
+        background-color: rgba(40, 167, 69, 0.2) !important;
+        transform: scale(1.1);
+    }
+</style>
+{% endblock %}
