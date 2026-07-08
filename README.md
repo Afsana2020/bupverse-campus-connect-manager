@@ -1,5 +1,5 @@
 
-# A Web Platform for Sharing Services and Connectivity among Students
+# A Web Platform for Sharing Services and Connectivity among Students using a transformer-based deep learning model and advanced DSA algorithms
 BUPVerse is a Django-based web application that combines multiple student-focused services, including Tutor Finder, Roommate Finder, and Event Management, into a single platform. It integrates real-time recommendation systems and scheduling algorithms powered by core data structures and advanced DSA algorithms, alongside a transformer-based deep learning model (all-MiniLM-L6-v2 Bi-Encoder) for semantic preference matching. The goal is to simplify campus life for students at the Bangladesh University of Professionals (BUP).
 
 The system includes three main modules:
