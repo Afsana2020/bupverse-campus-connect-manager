@@ -136,6 +136,9 @@ Notify users about sudden event time changes to inform them of any conflicts wit
 
 - APIs: OpenRouteService, Nominatim (for geolocation)
 
+## Local Setup:
+Please follow **read.txt** file.
+
 
 ## Contact:
 Email: afsanahena24@gmail.com
