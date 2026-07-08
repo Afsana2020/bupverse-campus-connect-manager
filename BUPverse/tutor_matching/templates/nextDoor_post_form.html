@@ -1,0 +1,145 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+  {% if form.instance.pk %}Edit Post | BUPverse{% else %}Create Post | BUPverse{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <!-- Header Section -->
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold mb-3 text-gradient-primary">
+      {% if form.instance.pk %}
+        Edit Your <span class="text-gradient-success">Tutor Post</span>
+      {% else %}
+        Create a <span class="text-gradient-success">New Post</span>
+      {% endif %}
+    </h1>
+    <p class="text-muted"><small>* indicates required field</small></p>
+  </div>
+
+  <!-- Form Card -->
+  <div class="card border-0 shadow-lg mx-auto" style="border-radius: 15px; max-width: 800px;">
+    <div class="card-body p-5">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Form Fields -->
+        <div class="row g-3">
+          {% for field in form %}
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              {{ field }}
+              <label for="{{ field.id_for_label }}">
+                {{ field.label }}
+                {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %}
+              {% for error in field.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Form Actions -->
+        <div class="d-flex justify-content-between mt-4">
+          <a href="{% url 'nextDoor_homepage' %}" class="btn btn-secondary rounded-pill px-4">
+            <i class="fas fa-arrow-left me-1"></i> Back to Homepage
+          </a>
+          <button class="btn btn-success rounded-pill px-4" type="submit">
+            <i class="fas fa-save me-1"></i>
+            {% if form.instance.pk %}Update Post{% else %}Create Post{% endif %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Background Elements -->
+<div class="position-fixed top-0 start-0 w-100 h-100" style="pointer-events: none; z-index: -1;">
+  <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-5"></div>
+</div>
+
+<style>
+  .text-gradient-primary {
+    background: linear-gradient(45deg, #28a745, #17a2b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .text-gradient-success {
+    background: linear-gradient(45deg, #20c997, #28a745);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .form-control, .form-select {
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #ced4da;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+  }
+
+  .form-floating label {
+    padding: 1rem 0.75rem;
+  }
+
+  .invalid-feedback {
+    font-size: 0.875em;
+  }
+
+  .form-control[type="file"] {
+    padding: 5px;
+  }
+
+  .is-invalid {
+    border-color: #dc3545;
+  }
+</style>
+
+<script>
+  // Add Bootstrap validation classes
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add 'form-control' class to all input fields
+    const inputs = document.querySelectorAll('input:not([type="checkbox"]), select, textarea');
+    inputs.forEach(input => {
+      if (input.type !== 'checkbox' && input.type !== 'file') {
+        input.classList.add('form-control');
+      }
+    });
+
+    // Add 'form-select' to select elements
+    document.querySelectorAll('select').forEach(select => {
+      select.classList.add('form-select');
+    });
+
+    // Add 'form-check-input' to checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.classList.add('form-check-input');
+    });
+
+    // Add floating labels functionality
+    document.querySelectorAll('.form-floating input, .form-floating select, .form-floating textarea').forEach(element => {
+      element.addEventListener('change', function() {
+        if (this.value) {
+          this.classList.add('filled');
+        } else {
+          this.classList.remove('filled');
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

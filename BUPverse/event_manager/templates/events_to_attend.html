@@ -1,0 +1,139 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+Your Routine Events | BUPverse
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+ 
+    {% if has_conflicts %}
+    <div class="alert alert-warning border-0 shadow-sm mb-4" style="border-radius: 15px;">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Some events conflict with your schedule due to updates from creator
+            </div>
+            <a href="{% url 'fix_conflict' %}" class="btn btn-danger btn-sm rounded-pill px-3">
+                Fix Conflicts
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="card border-0 shadow-lg mb-5" style="border-radius: 15px;">
+        <div class="card-body text-center p-4">
+            <h5 class="text-gradient-primary mb-3">
+                <i class="fas fa-brain me-2"></i>Optimize Your Schedule
+            </h5>
+            <p class="text-muted mb-4">Get the most out of your limited time with our smart analyzer</p>
+            
+            {% if has_conflicts %}
+            <div class="alert alert-danger rounded-pill d-inline-block px-4">
+                <i class="fas fa-lock me-2"></i>Please resolve conflicts first
+            </div>
+            {% else %}
+            <a href="{% url 'choose_number' %}" class="btn btn-success rounded-pill px-4">
+                <i class="fas fa-magic me-2"></i>Run Smart Analyzer
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+   
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 fw-bold text-gradient-primary mb-0">
+            <span class="text-gradient-success">Your Routine Events</span>
+        </h1>
+        <a href="{% url 'event_manage' %}" class="btn btn-outline-secondary rounded-pill px-4">
+            <i class="fas fa-arrow-left me-2"></i>Back
+        </a>
+    </div>
+
+    {% if routine_events %}
+    <div class="row g-4">
+        {% for event in routine_events %}
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg h-100" style="border-radius: 15px;">
+                {% if event.poster %}
+                <img src="{{ event.poster.url }}" class="card-img-top" 
+                     style="border-top-left-radius: 15px; border-top-right-radius: 15px; height: 200px; object-fit: cover;" 
+                     alt="{{ event.event_title }} poster">
+                {% endif %}
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h4 class="card-title mb-0 text-info"><strong>Event-{{ forloop.counter }}:</strong> {{ event.event_title }}</h4>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <p class="card-text">
+                            <i class="fas fa-calendar-day text-muted me-2"></i>
+                            {{ event.date }} | {{ event.start_time|time:"H:i" }} - {{ event.end_time|time:"H:i" }}
+                        </p>
+                    </div>
+                    
+                    <div class="d-flex mt-3">
+                        <a href="{% url 'event_details' event.id %}" class="btn btn-primary me-2">
+                            <i class="fas fa-eye me-1"></i>View Details
+                        </a>
+                        <form method="post" action="{% url 'update_routine' %}" class="mb-0">
+                            {% csrf_token %}
+                            <input type="hidden" name="event_id" value="{{ event.id }}">
+                            <input type="hidden" name="action" value="remove">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash-alt me-1"></i>Remove
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5 my-5">
+        <div class="card border-0 shadow-lg py-5" style="border-radius: 15px;">
+            <div class="card-body">
+                <i class="fas fa-calendar-plus fa-3x text-muted mb-4"></i>
+                <h4 class="text-muted">No events in your routine yet</h4>
+                <p class="text-muted">Start adding events to build your schedule</p>
+                <a href="{% url 'event_post_list' %}" class="btn btn-success rounded-pill px-4 mt-3">
+                    <i class="fas fa-plus me-2"></i>Browse Events
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+
+<div class="position-fixed top-0 start-0 w-100 h-100" style="pointer-events: none; z-index: -1;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-5"></div>
+</div>
+
+<style>
+    .text-gradient-primary {
+        background: linear-gradient(45deg, #28a745, #17a2b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .text-gradient-success {
+        background: linear-gradient(45deg, #20c997, #28a745);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .card {
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+</style>
+{% endblock %}

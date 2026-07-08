@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+  {% if form.instance.pk %}Edit Post | BUPverse{% else %}Create Post | BUPverse{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+ 
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold mb-3 text-gradient-primary">
+      <span class="text-gradient-success">Roommate Finder</span>
+    </h1>
+    <h3 class="fw-bold">
+      {% if form.instance.pk %}
+        Edit Your Post
+      {% else %}
+        Create New Post
+      {% endif %}
+    </h3>
+    <p class="text-muted"><small>* indicates required field</small></p>
+  </div>
+
+  <div class="card border-0 shadow-lg mx-auto" style="max-width: 800px; border-radius: 15px;">
+    <div class="card-body p-5">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+
+        <div class="row g-3">
+          {% for field in form %}
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              {{ field }}
+              <label for="{{ field.id_for_label }}">
+                {{ field.label }}
+                {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %}
+              {% for error in field.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+          <a href="{% url 'room_homepage' %}" class="btn btn-secondary rounded-pill px-4">
+            <i class="fas fa-arrow-left me-1"></i> Back to Posts
+          </a>
+          <button class="btn btn-success rounded-pill px-4" type="submit">
+            <i class="fas fa-save me-1"></i> 
+            {% if form.instance.pk %}Update{% else %}Create{% endif %} Post
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="position-fixed top-0 start-0 w-100 h-100" style="pointer-events: none; z-index: -1;">
+  <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-5"></div>
+</div>
+
+<style>
+  .text-gradient-primary {
+    background: linear-gradient(45deg, #28a745, #17a2b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .text-gradient-success {
+    background: linear-gradient(45deg, #20c997, #28a745);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .form-control, .form-select {
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #ced4da;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+  }
+
+  .form-floating label {
+    padding: 1rem 0.75rem;
+  }
+
+  .invalid-feedback {
+    font-size: 0.875em;
+  }
+</style>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+
+    const inputs = document.querySelectorAll('input:not([type="checkbox"]), select, textarea');
+    inputs.forEach(input => {
+      if (input.type !== 'checkbox' && input.type !== 'file') {
+        input.classList.add('form-control');
+      }
+    });
+
+    
+    document.querySelectorAll('select').forEach(select => {
+      select.classList.add('form-select');
+    });
+
+    
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.classList.add('form-check-input');
+    });
+
+ 
+    document.querySelectorAll('.form-floating input, .form-floating select, .form-floating textarea').forEach(element => {
+      element.addEventListener('change', function() {
+        if (this.value) {
+          this.classList.add('filled');
+        } else {
+          this.classList.remove('filled');
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

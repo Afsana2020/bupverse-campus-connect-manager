@@ -1,0 +1,98 @@
+
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Profile | BUPverse{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Profile Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-3 text-gradient-primary">{{ user.username }}'s Profile</h1>
+        <p class="text-muted">{{ user.email }}</p>
+    </div>
+
+
+    <div class="row justify-content-center">
+        <!-- Tutor Card -->
+        <div class="col-lg-10 mb-4">
+            <div class="card card-hover border-0 shadow-lg overflow-hidden" style="border-radius: 20px; background-color: #000;">
+                <div class="row g-0">
+                    <div class="col-md-5">
+                        <img src="{% static 'images/tutorIMG3.jpg' %}" class="img-fluid h-100 w-100" alt="Tutor" style="object-fit: cover; min-height: 200px;">
+                    </div>
+                    <div class="col-md-7 d-flex align-items-center">
+                        <div class="card-body p-4 text-white">
+                            <h3 class="card-title fw-bold mb-3">NextDoor Tutor</h3>
+                            <p class="card-text mb-4">Manage your tutor posts and academic connections</p>
+                            <a href="{% url 'nextDoor_profile' %}" class="btn btn-success rounded-pill px-4">
+                                Manage Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Card -->
+        <div class="col-lg-10 mb-4">
+            <div class="card card-hover border-0 shadow-lg overflow-hidden" style="border-radius: 20px; background-color: #000;">
+                <div class="row g-0">
+                    <div class="col-md-5">
+                        <img src="{% static 'images/eventIMG3.jpg' %}" class="img-fluid h-100 w-100" alt="Events" style="object-fit: cover; min-height: 200px;">
+                    </div>
+                    <div class="col-md-7 d-flex align-items-center">
+                        <div class="card-body p-4 text-white">
+                            <h3 class="card-title fw-bold mb-3">Event Manager</h3>
+                            <p class="card-text mb-4">Organize and track campus activities</p>
+                            <a href="{% url 'event_manage' %}" class="btn btn-success rounded-pill px-4">
+                                Manage Events
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-10 mb-4">
+            <div class="card card-hover border-0 shadow-lg overflow-hidden" style="border-radius: 20px; background-color: #000;">
+                <div class="row g-0">
+                    <div class="col-md-5">
+                        <img src="{% static 'images/roomIMG4.jpg' %}" class="img-fluid h-100 w-100" alt="Roommate" style="object-fit: cover; min-height: 200px;">
+                    </div>
+                    <div class="col-md-7 d-flex align-items-center">
+                        <div class="card-body p-4 text-white">
+                            <h3 class="card-title fw-bold mb-3">Roommate Profile</h3>
+                            <p class="card-text mb-4">Manage your living space connections</p>
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'room_profile' %}" class="btn btn-success rounded-pill px-4">
+                                Manage Profile
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-gradient-primary {
+        background: linear-gradient(45deg, #28a745, #17a2b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .card-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+    }
+</style>
+{% endblock %}

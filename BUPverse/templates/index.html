@@ -1,0 +1,159 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+Home | BUPverse
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <div class="text-center mb-5 animate__animated animate__fadeInDown">
+        <h1 class="display-4 fw-bold mb-3 text-gradient-primary">Welcome to <span class="text-gradient-success">BUPverse</span></h1>
+        <p class="lead text-dark">Your campus connection platform - where students find help, home, and happiness</p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-hover border-0 shadow-lg overflow-hidden" style="border-radius: 20px; transition: all 0.3s ease; background-color: #000;">
+                <div class="card-img-top position-relative overflow-hidden">
+                    <img src="{% static 'images/tutorIMG.jpg' %}" alt="Tutor Connection" class="img-fluid w-100">
+                    <div class="img-overlay bg-dark bg-opacity-30 d-flex align-items-center justify-content-center">
+                        <h3 class="text-white text-shadow">Knowledge Shared</h3>
+                    </div>
+                </div>
+                <div class="card-body text-center py-4">
+                    <h4 class="card-title fw-bold mb-3 text-white">Next-Door Tutor</h4>
+                    <p class="card-text text-light mb-4">Find the perfect tutor right in your neighborhood or become one to share your knowledge.</p>
+                    <a href="{% url 'nextDoor_homepage' %}" class="btn btn-success btn-lg px-4 py-2 rounded-pill shadow-sm">
+                        <i class="fas fa-chalkboard-teacher me-2"></i>Explore Tutors
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-hover border-0 shadow-lg overflow-hidden" style="border-radius: 20px; transition: all 0.3s ease; background-color: #000;">
+                <div class="card-img-top position-relative overflow-hidden">
+                    <img src="{% static 'images/roomIMG.jpg' %}" alt="Roommate Finder" class="img-fluid w-100">
+                    <div class="img-overlay bg-dark bg-opacity-30 d-flex align-items-center justify-content-center">
+                        <h3 class="text-white text-shadow">Friends Found</h3>
+                    </div>
+                </div>
+                <div class="card-body text-center py-4">
+                    <h4 class="card-title fw-bold mb-3 text-white">Roommate Finder</h4>
+                    <p class="card-text text-light mb-4">Discover your ideal roommate and turn your living space into a home.</p>
+                    <a href="{% url 'room_homepage' %}" class="btn btn-success btn-lg px-4 py-2 rounded-pill shadow-sm">
+                        <i class="fas fa-home me-2"></i>Find Roommates
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-hover border-0 shadow-lg overflow-hidden" style="border-radius: 20px; transition: all 0.3s ease; background-color: #000;">
+                <div class="card-img-top position-relative overflow-hidden">
+                    <img src="{% static 'images/eventIMG.jpg' %}" alt="Campus Events" class="img-fluid w-100">
+                    <div class="img-overlay bg-dark bg-opacity-30 d-flex align-items-center justify-content-center">
+                        <h3 class="text-white text-shadow">Memories Made</h3>
+                    </div>
+                </div>
+                <div class="card-body text-center py-4">
+                    <h4 class="card-title fw-bold mb-3 text-white">Campus Events</h4>
+                    <p class="card-text text-light mb-4">Never miss out on the exciting happenings around campus.</p>
+                    <a href="{% url 'event_homepage' %}" class="btn btn-success btn-lg px-4 py-2 rounded-pill shadow-sm">
+                        <i class="fas fa-calendar-alt me-2"></i>Discover Events
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5 pt-5 animate__animated animate__fadeInUp">
+        <h3 class="fw-light mb-4 text-dark">Your campus journey starts here</h3>
+        <p class="mb-4 text-dark">Get help, Help others</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'about_us' %}" class="btn btn-success px-4 py-2 rounded-pill">
+                <i class="fas fa-heart me-2"></i>About us
+            </a>
+            <a {% if user.is_authenticated %} href="{% url 'general_profile' %}" 
+            {% else %} href="{% url 'register' %}" {% endif %}
+            class="btn btn-success px-4 py-2 rounded-pill shadow">
+                <i class="fas fa-user-plus me-2"></i>Join Our Community
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="position-fixed top-0 start-0 w-100 h-100" style="pointer-events: none; z-index: -1;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-10"></div>
+    <div class="position-absolute bottom-0 end-0">
+        <div class="blob blob-lg bg-success opacity-10 animate-float"></div>
+    </div>
+</div>
+
+<style>
+    .text-gradient-primary {
+        background: linear-gradient(45deg, #28a745, #17a2b8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .text-gradient-success {
+        background: linear-gradient(45deg, #20c997, #28a745);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .card-hover:hover {
+        transform: translateY(-10px) !important;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2) !important;
+    }
+    
+    .img-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .card-hover:hover .img-overlay {
+        opacity: 1;
+    }
+    
+    .text-shadow {
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+    
+    .blob {
+        border-radius: 50%;
+        filter: blur(40px);
+    }
+    
+    .blob-lg {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .animate-float {
+        animation: float 8s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-50px) rotate(5deg); }
+        100% { transform: translateY(0px) rotate(0deg); }
+    }
+    
+    body {
+        background-color: #f8f9fa;
+        overflow-x: hidden;
+    }
+</style>
+
+{% endblock %}

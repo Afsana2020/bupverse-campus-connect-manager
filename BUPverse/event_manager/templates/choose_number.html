@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="text-center">
+        <h2 class="fw-bold mb-3" style="color: #2e7d32;">Your Weekly Event Recommendations</h2>
+        <p class="lead text-muted">Based on your priorities and availability</p>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card p-4 shadow-sm" style="border-radius: 12px; max-width: 500px; width: 100%;">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="{{ form.choose.id_for_label }}" class="form-label fw-medium" style="color: #5d4037;">
+                        {{ form.choose.label }}
+                    </label>
+                    {{ form.choose }}
+                    <div class="form-text">Select how many events you'd like to see</div>
+                </div>
+                
+                <div class="d-grid">
+                    <button type="submit" class="btn" style="background-color: #2e7d32; color: white; padding: 10px; border-radius: 8px;">
+                        Get Recommendations
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #fafafa;
+    }
+    .form-select {
+        border-radius: 8px;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+    }
+    .form-select:focus {
+        border-color: #2e7d32;
+        box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+    }
+    .card {
+        border: none;
+        background-color: white;
+    }
+    .btn {
+        transition: all 0.2s ease;
+    }
+    .btn:hover {
+        background-color: #1b5e20 !important;
+        transform: translateY(-1px);
+    }
+</style>
+
+{% endblock %}

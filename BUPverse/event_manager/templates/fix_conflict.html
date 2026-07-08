@@ -1,0 +1,135 @@
+<!-- fix_conflict.html -->
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 text-danger text-bold">
+            Resolve Schedule Conflicts
+        </h2>
+        
+        <div>
+            <a href="{% url 'view_routine' %}" class="btn btn-outline-secondary me-2">
+                <i class="bi bi-arrow-left"></i> Back to Routine
+            </a>
+            <a href="{% url 'fix_conflict' %}" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-clockwise"></i> Refresh
+            </a>
+        </div>
+    </div>
+    
+    {% if not has_conflicts %}
+    <div class="alert alert-success d-flex align-items-center">
+        <i class="bi bi-check-circle-fill me-2 fs-4"></i>
+        <div>
+            <h4 class="alert-heading mb-1">No conflicts found!</h4>
+            <p class="mb-0">Your schedule is currently conflict-free.</p>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info d-flex align-items-center mb-4">
+        <i class="bi bi-info-circle-fill me-3 fs-4"></i>
+        <div>
+            <h4 class="alert-heading mb-1">How to resolve conflicts</h4>
+            <p class="mb-0">For each conflict below, select which item you'd like to remove from your schedule.</p>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% for conflict in conflicts %}
+    <div class="card mb-4 border-2 border-danger shadow-sm">
+        <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+            <div>
+                <i class="bi bi-exclamation-octagon-fill me-2"></i>
+                <strong>Conflict #{{ forloop.counter }}</strong> ({{ conflict.type|title }})
+            </div>
+            <span class="badge bg-white text-danger">{{ conflict.items|length }} conflicting items</span>
+        </div>
+        <div class="card-body">
+            <h5 class="text-muted mb-3">
+                <i class="bi bi-clock-history me-2"></i>
+                {{ conflict.date|date:"F j, Y" }} at {{ conflict.time }}
+            </h5>
+            
+            <div class="row g-4">
+                {% for item in conflict.items %}
+                <div class="col-md-6">
+                    <div class="card h-100 border-{% if item.type == 'busy_slot' %}primary{% else %}success{% endif %}">
+                        <div class="card-header bg-{% if item.type == 'busy_slot' %}primary{% else %}success{% endif %} bg-opacity-10">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-{% if item.type == 'busy_slot' %}primary{% else %}success{% endif %}">
+                                    {% if item.type == 'busy_slot' %}
+                                    <i class="bi bi-person-lines-fill me-1"></i> Busy Slot
+                                    {% else %}
+                                    <i class="bi bi-calendar-event me-1"></i> Event
+                                    {% endif %}
+                                </span>
+                               
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            <p class="card-text text-muted">
+                                <i class="bi bi-clock me-1"></i> {{ item.time }}
+                                {% if item.location %}
+                                <br><i class="bi bi-geo-alt me-1"></i> {{ item.location }}
+                                {% endif %}
+                            </p>
+                            {% if item.description %}
+                            <div class="border-top pt-2 mt-2">
+                                <p class="small text-muted mb-0">{{ item.description|truncatechars:100 }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <form method="post" action="
+                                {% if item.type == 'busy_slot' %}
+                                    {% url 'delete_busy_slot' item.id %}
+                                {% else %}
+                                    {% url 'update_routine' %}
+                                {% endif %}">
+                                {% csrf_token %}
+                                {% if item.type == 'event' %}
+                                <input type="hidden" name="event_id" value="{{ item.id }}">
+                                <input type="hidden" name="action" value="remove">
+                                {% endif %}
+                                <button type="submit" class="btn btn-danger w-100">
+                                    <i class="bi bi-trash"></i> Remove This Item
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+    {% if has_conflicts %}
+    <div class="alert alert-warning mt-4">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-lightbulb-fill me-3 fs-4"></i>
+            <div>
+                <h4 class="alert-heading mb-1">Tip</h4>
+                <p class="mb-0">After resolving all conflicts, click "Refresh" to check if any new conflicts appear.</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .conflict-card {
+        border-left: 4px solid #dc3545;
+    }
+</style>
+{% endblock %}

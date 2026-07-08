@@ -1,0 +1,53 @@
+========================================================================
+             BUPVerse - Project Setup Guide
+========================================================================
+
+SYSTEM REQUIREMENTS:
+--------------------
+- Python Version: Python 3.11 or Python 3.12 (Recommended: 3.12.0)
+- Database: SQLite (Built-in)
+- Internet connection required on the very first run to download 
+  the AI embedding model weights (~90MB).
+
+LOCAL SETUP INSTRUCTIONS:
+-------------------------
+
+Step 1: Extract the project files and open your terminal/command prompt 
+        inside the root directory (where manage.py is located).
+
+Step 2: Create a virtual environment to keep dependencies isolated:
+        python -m venv .venv
+
+Step 3: Activate the virtual environment:
+        - On Windows (Command Prompt):  .venv\Scripts\activate
+        - On Windows (PowerShell):      .venv\Scripts\Activate.ps1
+        - On macOS/Linux:               source .venv/bin/activate
+
+Step 4: Install all required libraries and AI dependencies:
+        pip install -r requirements.txt
+
+Step 5: Apply database migrations to set up SQLite tables:
+        python manage.py migrate
+
+Step 6: Run the local development server:
+        python manage.py runserver
+
+Step 7: Open your web browser and go to:
+        http://127.0.0.1:8000/
+
+
+CRITICAL NOTES FOR EVALUATORS:
+------------------------------
+1. AI Model Auto-Download: 
+   The NextDoor Tutor and Roommate Finder modules utilize the 
+   'all-MiniLM-L6-v2' Sentence-Transformer model. The first time a 
+   matching feature is used, the system will automatically download 
+   the lightweight (~90MB) model from Hugging Face and cache it locally. 
+   Please ensure you have an active internet connection for this first run. 
+   Subsequent runs will load instantly from the local cache offline.
+
+2. Geolocation Services:
+   Distance scoring relies on public APIs (OpenRouteService/Nominatim). 
+   If coordinates are missing or APIs are unreachable, the system 
+   gracefully falls back to neutral safety scores without crashing.
+========================================================================

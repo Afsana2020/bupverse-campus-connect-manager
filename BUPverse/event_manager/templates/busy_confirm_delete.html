@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Confirm Deletion</h4>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Are you sure you want to delete this {{ object_type }}?</p>
+                    
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5>{{ object.task_name }}</h5>
+                            <p class="mb-1">
+                                <strong>Day:</strong> {{ object.get_day_of_week_display }}
+                            </p>
+                            <p class="mb-0">
+                                <strong>Time:</strong> {{ object.start_time|time:"H:i" }} - {{ object.end_time|time:"H:i" }}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash me-2"></i>Confirm Delete
+                            </button>
+                            <a href="{% url 'view_routine' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
