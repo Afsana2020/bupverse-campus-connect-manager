@@ -1,6 +1,6 @@
 
 # A Web Platform for Sharing Services and Connectivity among Students
-BUPVerse is a Django-based web application that combines multiple student-focused services in one platform. It integrates real-time recommendation systems and scheduling algorithms using core data structures and algorithms (DSA). The goal is to simplify campus life for students at the Bangladesh University of Professionals (BUP).
+BUPVerse is a Django-based web application that combines multiple student-focused services in one platform. It integrates real-time recommendation systems and scheduling algorithms using core data structures, advanced algorithms (DSA), and Deep Learning NLP models. The goal is to simplify campus life for students at the Bangladesh University of Professionals (BUP).
 
 The system includes three main modules:
 
@@ -10,7 +10,7 @@ The system includes three main modules:
 
 - Event Hub
 
-These modules are implemented using Dijkstra’s Algorithm, Segment Tree, Interval Scheduling, and 0/1 Knapsack to ensure optimal performance and personalization.
+These modules are implemented using Sentence-Transformers (the all-MiniLM-L6-v2 Bi-Encoder AI model), PyTorch Vector Mathematics, Segment Trees, Interval Scheduling, and 0/1 Knapsack to ensure optimal performance, low latency, and deep personalization.
 
 ## Features: 
 
@@ -33,8 +33,9 @@ The homepage of BUPVerse provides a clean and intuitive user interface. It acts 
 
 
 ### NextDoor Tutor:
-The NextDoor Tutor module connects students and tutors using a graph-based system where each post is a node. A customized Dijkstra’s Algorithm calculates compatibility scores based on subject match, budget, gender preference, and location (via OpenRouteService and Nominatim). A max-heap retrieves the top-K best matches efficiently, with real-time updates as users post or edit, enabling dynamic, personalized recommendations.
+The NextDoor Tutor module connects students and tutors using an advanced Semantic AI Matchmaking Architecture. Instead of relying on strict keyword matching, the module utilizes the deep learning all-MiniLM-L6-v2 Sentence-Transformer model to convert raw user profiles (subjects, budget, medium, and class level) into high-dimensional vector embeddings.
 
+To prevent server lag, candidate profiles are evaluated using PyTorch Batch Matrix Multiplication (util.pytorch_cos_sim) to calculate semantic similarity scores instantly. This is combined with an exponential decay location scoring algorithm (via OpenRouteService API) using a 70% AI with 30% Geographic Proximity hybrid formula to fetch the Top-K best matches in milliseconds.
 
 - NextDoor Homepage
 
@@ -52,7 +53,9 @@ The NextDoor Tutor module connects students and tutors using a graph-based syste
 
 ### Roommate Finder:
 
-The Roommate Finder module helps students find compatible roommates using a graph-based model. Each user is a node, and matches are scored with a customized Dijkstra’s Algorithm. Key factors include location (high weight), rent and gender (medium), and food preferences (low). A max-heap retrieves the top-K matches, delivering personalized, real-time roommate suggestions.
+The Roommate Finder module helps students find highly compatible room pairings by analyzing human lifestyle context. The module dynamically translates user database rows (rent expectations, food preferences, clean/noisy habits, and location) into clean, natural-language text strings, which are then passed into the cached all-MiniLM-L6-v2 model.
+
+By calculating the mathematical cosine angle between the user's vector and all pool candidates simultaneously, the AI grasps "soft preferences" (e.g., matching "quiet environment" with "peaceful room"). A local LRU cache prevents redundant model computations, rendering highly personalized roommate rankings with maximum runtime efficiency.
 
 - Roommate FinderHomepage:
 
@@ -70,7 +73,7 @@ The Roommate Finder module helps students find compatible roommates using a grap
 
 ### Campus events:
 
-The Event Hub centralizes event info across BUP clubs and departments, helping students discover and manage events efficiently. It uses a segment tree to quickly detect schedule conflicts and a greedy interval scheduling algorithm to suggest non-overlapping events. For personalized planning, a 0/1 Knapsack algorithm recommends the most valuable set of events based on user availability and event priority, maximizing utility while avoiding clashes.
+The Event Hub centralizes event info across BUP clubs and departments, helping students discover and manage events efficiently. It uses a Segment Tree to quickly detect schedule conflicts and a greedy Interval Scheduling algorithm to suggest non-overlapping events. For personalized planning, a 0/1 Knapsack algorithm recommends the most valuable set of events based on user availability and event priority, maximizing utility while avoiding clashes.
 
 - Campus Events Homepage
   
@@ -123,6 +126,8 @@ Routine management handles regular tasks by blocking busy time slots and schedul
 Notify users about sudden event time changes to inform them of any conflicts with their existing schedule and help them resolve these conflicts easily.
 
 ## Tool Used: 
+- AI & Machine Learning: Sentence-Transformers (all-MiniLM-L6-v2), PyTorch Vector Math
+  
 - Backend: Django (Python)
 
 - Frontend: HTML, CSS, JavaScript, Bootstrap
